@@ -1,0 +1,910 @@
+{% extends 'base.html' %}
+
+{% block title %}Screening Result | RetinaScan{% endblock %}
+
+{% block content %}
+
+{% set probability_map = {
+    'No DR': probabilities[2] if probabilities|length > 2 else 0,
+    'Mild': probabilities[0] if probabilities|length > 0 else 0,
+    'Moderate': probabilities[1] if probabilities|length > 1 else 0,
+    'Severe': probabilities[4] if probabilities|length > 4 else 0,
+    'Proliferative': probabilities[3] if probabilities|length > 3 else 0
+} %}
+
+<style>
+    /* =========================
+       RETINASCAN RESULT PAGE
+       ========================= */
+
+    .result-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 20px 0 50px;
+    }
+
+    /* ---------- Hero ---------- */
+
+    .result-hero {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 28px;
+        align-items: stretch;
+        margin-bottom: 28px;
+    }
+
+    .result-summary {
+        padding: 30px;
+        border-radius: 20px;
+        background: var(--card-bg, #ffffff);
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .section-tag {
+        display: inline-block;
+        padding: 7px 13px;
+        border-radius: 20px;
+        background: rgba(59, 130, 246, 0.10);
+        color: #2563eb;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        margin-bottom: 12px;
+    }
+
+    .result-summary h1 {
+        margin: 0 0 10px;
+        font-size: clamp(30px, 4vw, 46px);
+        line-height: 1.1;
+        font-weight: 800;
+    }
+
+    .result-intro {
+        margin: 0;
+        color: #64748b;
+        line-height: 1.7;
+        font-size: 15px;
+        max-width: 650px;
+    }
+
+    .result-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 24px;
+    }
+
+    .meta-pill {
+        min-width: 145px;
+        padding: 13px 17px;
+        border-radius: 13px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .meta-pill span {
+        display: block;
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 4px;
+    }
+
+    .meta-pill strong {
+        font-size: 18px;
+        color: #0f172a;
+    }
+
+    .risk-pill {
+        background: #fff7ed;
+        border-color: #fed7aa;
+    }
+
+    .result-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    /* ---------- Result Image ---------- */
+
+    .result-image-card {
+        min-height: 320px;
+        padding: 14px;
+        border-radius: 20px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .result-image-card img {
+        width: 100%;
+        height: 100%;
+        min-height: 290px;
+        max-height: 390px;
+        object-fit: contain;
+        border-radius: 14px;
+        background: #f8fafc;
+    }
+
+    /* ---------- Quality Warning ---------- */
+
+    .quality-banner {
+        padding: 16px 20px;
+        margin-bottom: 28px;
+        border-radius: 14px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+        line-height: 1.6;
+    }
+
+    /* ---------- Main Grid ---------- */
+
+    .result-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .panel-card {
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 24px;
+        box-shadow: 0 7px 22px rgba(0, 0, 0, 0.05);
+    }
+
+    .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .panel-header h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 750;
+        color: #0f172a;
+    }
+
+    /* ---------- Patient Details ---------- */
+
+    .detail-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .detail-list li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 13px 15px;
+        border-radius: 11px;
+        background: #f8fafc;
+    }
+
+    .detail-list li span {
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .detail-list li strong {
+        color: #0f172a;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .detail-list.compact li {
+        padding: 11px 14px;
+    }
+
+    /* ---------- Recommendation Box ---------- */
+
+    .guidance-box {
+        position: relative;
+        padding: 20px;
+        border-radius: 15px;
+        background: linear-gradient(
+            135deg,
+            rgba(59, 130, 246, 0.07),
+            rgba(14, 165, 233, 0.04)
+        );
+        border: 1px solid rgba(59, 130, 246, 0.18);
+        overflow: hidden;
+    }
+
+    .guidance-box::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: #3b82f6;
+    }
+
+    .guidance-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 12px;
+        color: #1d4ed8;
+        font-weight: 750;
+        font-size: 15px;
+    }
+
+    .guidance-box p {
+        margin: 0 0 10px;
+        color: #475569;
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+    .guidance-box p:last-child {
+        margin-bottom: 0;
+    }
+
+    .guidance-box .recommendation-text {
+        color: #0f172a;
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    /* ---------- Probability Chart ---------- */
+
+    .probability-intro {
+        margin: -7px 0 22px;
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .probability-chart {
+        display: flex;
+        flex-direction: column;
+        gap: 19px;
+    }
+
+    .probability-row {
+        display: grid;
+        grid-template-columns: 125px minmax(150px, 1fr) 75px;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .probability-label {
+        font-size: 14px;
+        font-weight: 650;
+        color: #334155;
+    }
+
+    .probability-bar-wrap {
+        width: 100%;
+        height: 13px;
+        border-radius: 20px;
+        background: #e8eef5;
+        overflow: hidden;
+    }
+
+    .probability-bar {
+        height: 100%;
+        min-width: 2px;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #2563eb, #06b6d4);
+        transition: width 0.7s ease;
+    }
+
+    .probability-value {
+        text-align: right;
+        font-size: 14px;
+        font-weight: 750;
+        color: #0f172a;
+    }
+
+    .probability-summary {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .probability-mini-card {
+        padding: 12px 8px;
+        text-align: center;
+        border-radius: 11px;
+        background: #f8fafc;
+    }
+
+    .probability-mini-card span {
+        display: block;
+        font-size: 11px;
+        color: #64748b;
+        margin-bottom: 4px;
+    }
+
+    .probability-mini-card strong {
+        font-size: 15px;
+        color: #0f172a;
+    }
+
+    /* ---------- Grad-CAM ---------- */
+
+    .section-note {
+        margin: -7px 0 22px;
+        color: #64748b;
+        line-height: 1.65;
+        font-size: 14px;
+    }
+
+    .gradcam-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .gradcam-grid figure {
+        margin: 0;
+        padding: 12px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .gradcam-grid img {
+        display: block;
+        width: 100%;
+        height: 310px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: #ffffff;
+    }
+
+    .gradcam-grid figcaption {
+        text-align: center;
+        padding-top: 11px;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 650;
+    }
+
+    /* ---------- Voice ---------- */
+
+    .voice-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .voice-form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .voice-form-row label {
+        font-size: 14px;
+        font-weight: 650;
+        color: #334155;
+    }
+
+    .voice-form select {
+        width: 100%;
+        max-width: 350px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background: #ffffff;
+        color: #0f172a;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .voice-form select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+    }
+
+    .audio-player {
+        width: 100%;
+        max-width: 650px;
+    }
+
+    /* ---------- Responsive ---------- */
+
+    @media (max-width: 900px) {
+        .result-hero {
+            grid-template-columns: 1fr;
+        }
+
+        .result-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .result-image-card {
+            min-height: 280px;
+        }
+
+        .probability-summary {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 650px) {
+        .result-page {
+            padding: 10px 0 35px;
+        }
+
+        .result-summary,
+        .panel-card {
+            padding: 19px;
+            border-radius: 15px;
+        }
+
+        .result-actions {
+            flex-direction: column;
+        }
+
+        .result-actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .probability-row {
+            grid-template-columns: 90px minmax(80px, 1fr) 62px;
+            gap: 9px;
+        }
+
+        .probability-label,
+        .probability-value {
+            font-size: 12px;
+        }
+
+        .probability-bar-wrap {
+            height: 11px;
+        }
+
+        .probability-summary {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gradcam-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .gradcam-grid img {
+            height: 260px;
+        }
+
+        .detail-list li {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-list li strong {
+            text-align: left;
+        }
+    }
+</style>
+
+<div class="result-page">
+
+    <!-- ================= RESULT HERO ================= -->
+
+    <section class="result-hero reveal">
+
+        <div class="result-summary">
+
+            <span class="section-tag">AI Screening Result</span>
+
+            <h1>{{ predicted }}</h1>
+
+            <p class="result-intro">
+                AI-assisted screening indicates features associated with the
+                <strong>{{ predicted }}</strong> category.
+            </p>
+
+            <div class="result-meta-row">
+
+                <div class="meta-pill">
+                    <span>Model Confidence</span>
+                    <strong>{{ '%.2f'|format(confidence * 100) }}%</strong>
+                </div>
+
+                {% if risk_result %}
+                <div class="meta-pill risk-pill">
+                    <span>Risk Level</span>
+                    <strong>{{ risk_result.risk_level }}</strong>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="result-actions">
+
+                <a class="btn btn-primary"
+                   href="{{ url_for(
+                       'download_report',
+                       filename=filename,
+                       age=age if age is defined else '',
+                       blood_sugar=blood_sugar if blood_sugar is defined else '',
+                       blood_pressure=blood_pressure if blood_pressure is defined else '',
+                       language=language
+                   ) }}">
+                    Download Report
+                </a>
+
+                <a class="btn btn-secondary"
+                   href="{{ url_for('screening') }}">
+                    Start Another Screening
+                </a>
+
+            </div>
+
+        </div>
+
+        {% if image_url %}
+        <div class="result-image-card">
+            <img src="{{ image_url }}"
+                 alt="Uploaded retinal fundus image used for screening">
+        </div>
+        {% endif %}
+
+    </section>
+
+
+    <!-- ================= IMAGE QUALITY ================= -->
+
+    {% if quality_warning %}
+    <section class="quality-banner reveal">
+        <strong>Image Quality Check:</strong>
+        {{ quality_warning }}
+    </section>
+    {% endif %}
+
+
+    <!-- ================= PATIENT + GUIDANCE ================= -->
+
+    <section class="result-grid reveal">
+
+        <div class="panel-card">
+
+            <div class="panel-header">
+                <h2>Patient Information</h2>
+            </div>
+
+            <ul class="detail-list">
+
+                <li>
+                    <span>Age</span>
+                    <strong>
+                        {{ age if age else 'Not provided' }}
+                    </strong>
+                </li>
+
+                <li>
+                    <span>Blood Sugar</span>
+                    <strong>
+                        {{ blood_sugar if blood_sugar else 'Not provided' }}
+                    </strong>
+                </li>
+
+                <li>
+                    <span>Blood Pressure</span>
+                    <strong>
+                        {{ blood_pressure if blood_pressure else 'Not provided' }}
+                    </strong>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="panel-card">
+
+            <div class="panel-header">
+                <h2>Follow-up Guidance</h2>
+            </div>
+
+            {% if risk_result %}
+
+            <div class="guidance-box">
+
+                <div class="guidance-title">
+                    <span>●</span>
+                    <span>Screening Guidance</span>
+                </div>
+
+                <p class="recommendation-text">
+                    <strong>Recommendation:</strong>
+                    {{ risk_result.recommendation }}
+                </p>
+
+                <p>
+                    {{ risk_result.explanation }}
+                </p>
+
+            </div>
+
+            {% else %}
+
+            <div class="guidance-box">
+                <p>
+                    Follow-up information is not available for this screening.
+                </p>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CLASS PROBABILITIES ================= -->
+
+    <section class="panel-card reveal">
+
+        <div class="panel-header">
+            <h2>Class Probabilities</h2>
+        </div>
+
+        <p class="probability-intro">
+            The chart below shows the model's probability distribution across
+            all five diabetic retinopathy classes.
+        </p>
+
+        <div class="probability-chart">
+
+            {% for label, value in [
+                ('No DR', probability_map['No DR']),
+                ('Mild', probability_map['Mild']),
+                ('Moderate', probability_map['Moderate']),
+                ('Severe', probability_map['Severe']),
+                ('Proliferative', probability_map['Proliferative'])
+            ] %}
+
+            {% set percent = (value * 100) if value is not none else 0 %}
+
+            <div class="probability-row">
+
+                <div class="probability-label">
+                    {{ label }}
+                </div>
+
+                <div class="probability-bar-wrap">
+                    <div class="probability-bar"
+                         style="width: {{ percent }}%;">
+                    </div>
+                </div>
+
+                <div class="probability-value">
+                    {{ '%.2f'|format(percent) }}%
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- Small summary cards -->
+
+        <div class="probability-summary">
+
+            {% for label, value in [
+                ('No DR', probability_map['No DR']),
+                ('Mild', probability_map['Mild']),
+                ('Moderate', probability_map['Moderate']),
+                ('Severe', probability_map['Severe']),
+                ('Proliferative', probability_map['Proliferative'])
+            ] %}
+
+            {% set percent = (value * 100) if value is not none else 0 %}
+
+            <div class="probability-mini-card">
+
+                <span>{{ label }}</span>
+
+                <strong>
+                    {{ '%.1f'|format(percent) }}%
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= GRAD-CAM ================= -->
+
+    {% if gradcam_url %}
+
+    <section class="panel-card reveal">
+
+        <div class="panel-header">
+            <h2>Model Visual Explanation</h2>
+        </div>
+
+        <p class="section-note">
+            Grad-CAM provides a visual indication of image regions that
+            contributed to the model's prediction. It is an interpretability
+            aid and should not be treated as a clinical diagnosis.
+        </p>
+
+        <div class="gradcam-grid">
+
+            <figure>
+
+                <img src="{{ image_url }}"
+                     alt="Original retinal image used for the screening result">
+
+                <figcaption>
+                    Original Retinal Image
+                </figcaption>
+
+            </figure>
+
+
+            <figure>
+
+                <img src="{{ gradcam_url }}"
+                     alt="Grad-CAM heatmap showing model attention over the retinal image">
+
+                <figcaption>
+                    Grad-CAM Visual Explanation
+                </figcaption>
+
+            </figure>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- ================= SCREENING METADATA ================= -->
+
+    {% if screening_id or created_at %}
+
+    <section class="panel-card reveal">
+
+        <div class="panel-header">
+            <h2>Screening Metadata</h2>
+        </div>
+
+        <ul class="detail-list compact">
+
+            <li>
+                <span>Screening ID</span>
+                <strong>
+                    {{ screening_id if screening_id else 'N/A' }}
+                </strong>
+            </li>
+
+            <li>
+                <span>Screened On</span>
+                <strong>
+                    {{ created_at if created_at else 'N/A' }}
+                </strong>
+            </li>
+
+        </ul>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- ================= EXISTING VOICE REPORT ================= -->
+
+    {% if audio_url %}
+
+    <section class="panel-card reveal">
+
+        <div class="panel-header">
+            <h2>Voice Screening Report</h2>
+        </div>
+
+        <audio controls
+               src="{{ audio_url }}"
+               class="audio-player">
+        </audio>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- ================= GENERATE VOICE ================= -->
+
+
+<!-- ================= GENERATE VOICE ================= -->
+
+<section class="panel-card reveal">
+
+    <div class="panel-header">
+        <h2>Generate Voice Report</h2>
+    </div>
+
+    <form method="post"
+          action="{{ url_for('result') }}"
+          class="voice-form">
+
+        <input type="hidden"
+               name="filename"
+               value="{{ filename }}">
+
+        <input type="hidden"
+               name="age"
+               value="{{ age if age is defined else '' }}">
+
+        <input type="hidden"
+               name="blood_sugar"
+               value="{{ blood_sugar if blood_sugar is defined else '' }}">
+
+        <input type="hidden"
+               name="blood_pressure"
+               value="{{ blood_pressure if blood_pressure is defined else '' }}">
+
+        <div class="voice-form-row">
+
+            <label for="language">
+                Select Voice Language
+            </label>
+
+            <select name="language" id="language">
+
+                <option value="en"
+                    {% if language == 'en' %}selected{% endif %}>
+                    English
+                </option>
+
+                <option value="ta"
+                    {% if language == 'ta' %}selected{% endif %}>
+                    தமிழ்
+                </option>
+
+            </select>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Generate Voice Report
+        </button>
+
+    </form>
+
+</section>
+
+
+<!-- ================= PAGE END ================= -->
+
+</div>
+
+{% endblock %}

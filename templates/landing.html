@@ -1,0 +1,785 @@
+{% extends 'base.html' %}
+
+{% block title %}RetinaScan | AI-Assisted Eye Screening{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="home-hero reveal">
+
+    <div class="home-hero-content">
+
+        <span class="section-tag">
+            AI-POWERED EYE SCREENING
+        </span>
+
+        <h1>
+            Early Screening.
+            <span>Better Eye Awareness.</span>
+        </h1>
+
+        <p>
+            RetinaScan uses AI-assisted retinal image analysis to
+            provide a preliminary indication of diabetic retinopathy
+            severity in an accessible, easy-to-understand way.
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="{{ url_for('screening') }}"
+                class="btn btn-primary btn-large"
+            >
+                Start Screening
+                <span>→</span>
+            </a>
+
+            <a
+                href="{{ url_for('how_it_works') }}"
+                class="btn btn-secondary btn-large"
+            >
+                See How It Works
+            </a>
+
+        </div>
+
+        <div class="hero-trust-row">
+
+            <div class="hero-trust-item">
+                <strong>5</strong>
+                <span>DR stages</span>
+            </div>
+
+            <div class="hero-trust-item">
+                <strong>AI</strong>
+                <span>Image analysis</span>
+            </div>
+
+            <div class="hero-trust-item">
+                <strong>2</strong>
+                <span>Languages</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="home-hero-visual">
+
+        <div class="hero-image-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1000&q=85"
+                alt="Eye care and retinal screening"
+            >
+
+            <div class="hero-floating-card">
+
+                <div class="floating-icon">
+                    👁
+                </div>
+
+                <div>
+                    <strong>AI-Assisted Screening</strong>
+                    <span>Retinal image analysis</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WHY IT MATTERS
+========================================================= -->
+
+<section class="home-section reveal">
+
+    <div class="section-heading center">
+
+        <span class="section-tag">
+            WHY IT MATTERS
+        </span>
+
+        <h2>
+            Eye health deserves
+            <span>early attention.</span>
+        </h2>
+
+        <p>
+            Diabetic retinopathy can develop gradually. Regular
+            screening and awareness can help people understand when
+            further professional eye evaluation may be needed.
+        </p>
+
+    </div>
+
+
+    <div class="info-card-grid">
+
+        <article class="info-card">
+
+            <div class="info-card-icon">
+                👁️
+            </div>
+
+            <h3>
+                Silent Progression
+            </h3>
+
+            <p>
+                Retinal changes may develop before noticeable vision
+                problems appear.
+            </p>
+
+        </article>
+
+
+        <article class="info-card">
+
+            <div class="info-card-icon">
+                🔎
+            </div>
+
+            <h3>
+                Early Awareness
+            </h3>
+
+            <p>
+                Screening can help identify people who may need
+                further eye-care evaluation.
+            </p>
+
+        </article>
+
+
+        <article class="info-card">
+
+            <div class="info-card-icon">
+                🌍
+            </div>
+
+            <h3>
+                Accessible Technology
+            </h3>
+
+            <p>
+                RetinaScan explores a smartphone-oriented workflow
+                for resource-limited settings.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WHAT IS DIABETIC RETINOPATHY
+========================================================= -->
+
+<section class="split-section dr-section reveal">
+
+    <div class="split-image">
+
+        <img
+            src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1000&q=85"
+            alt="Eye examination and eye health"
+        >
+
+        <div class="image-label">
+            <span>01</span>
+            Understanding retinal health
+        </div>
+
+    </div>
+
+
+    <div class="split-content">
+
+        <span class="section-tag">
+            UNDERSTAND THE CONDITION
+        </span>
+
+        <h2>
+            What is
+            <span>Diabetic Retinopathy?</span>
+        </h2>
+
+        <p>
+            Diabetic retinopathy is a diabetes-related eye condition
+            that can damage the blood vessels of the retina.
+            Changes may progress over time and can affect vision.
+        </p>
+
+        <p>
+            This is why regular eye screening and professional
+            evaluation are important for people living with diabetes.
+        </p>
+
+
+        <div class="mini-feature-list">
+
+            <div>
+                <span>✓</span>
+                Retinal changes can develop gradually
+            </div>
+
+            <div>
+                <span>✓</span>
+                Early stages may have few noticeable symptoms
+            </div>
+
+            <div>
+                <span>✓</span>
+                Regular screening supports better awareness
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FIVE STAGES
+========================================================= -->
+
+<section class="home-section stages-section reveal">
+
+    <div class="section-heading center">
+
+        <span class="section-tag">
+            FIVE SCREENING CATEGORIES
+        </span>
+
+        <h2>
+            Understanding the
+            <span>five stages</span>
+        </h2>
+
+        <p>
+            RetinaScan's model is designed around five diabetic
+            retinopathy classification categories.
+        </p>
+
+    </div>
+
+
+    <div class="stage-grid">
+
+        <article class="stage-card stage-no-dr">
+
+            <div class="stage-number">
+                01
+            </div>
+
+            <div class="stage-visual">
+                <div class="retina-circle no-dr"></div>
+            </div>
+
+            <h3>No DR</h3>
+
+            <p>
+                No diabetic retinopathy detected by the screening model.
+            </p>
+
+        </article>
+
+
+        <article class="stage-card stage-mild">
+
+            <div class="stage-number">
+                02
+            </div>
+
+            <div class="stage-visual">
+                <div class="retina-circle mild"></div>
+            </div>
+
+            <h3>Mild</h3>
+
+            <p>
+                Early retinal changes associated with diabetic retinopathy.
+            </p>
+
+        </article>
+
+
+        <article class="stage-card stage-moderate">
+
+            <div class="stage-number">
+                03
+            </div>
+
+            <div class="stage-visual">
+                <div class="retina-circle moderate"></div>
+            </div>
+
+            <h3>Moderate</h3>
+
+            <p>
+                More noticeable retinal changes requiring attention.
+            </p>
+
+        </article>
+
+
+        <article class="stage-card stage-severe">
+
+            <div class="stage-number">
+                04
+            </div>
+
+            <div class="stage-visual">
+                <div class="retina-circle severe"></div>
+            </div>
+
+            <h3>Severe</h3>
+
+            <p>
+                Advanced retinal changes that warrant professional evaluation.
+            </p>
+
+        </article>
+
+
+        <article class="stage-card stage-proliferative">
+
+            <div class="stage-number">
+                05
+            </div>
+
+            <div class="stage-visual">
+                <div class="retina-circle proliferative"></div>
+            </div>
+
+            <h3>Proliferative</h3>
+
+            <p>
+                A more advanced category of diabetic retinopathy.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WHY SCREENING
+========================================================= -->
+
+<section class="feature-banner reveal">
+
+    <div class="feature-banner-content">
+
+        <span class="section-tag">
+            WHY SCREENING MATTERS
+        </span>
+
+        <h2>
+            Don't wait for vision
+            problems to become obvious.
+        </h2>
+
+        <p>
+            Screening is about awareness. RetinaScan provides an
+            AI-assisted preliminary indication that can help users
+            understand their screening result and consider appropriate
+            professional follow-up.
+        </p>
+
+        <a
+            href="{{ url_for('screening') }}"
+            class="btn btn-light"
+        >
+            Begin a Screening →
+        </a>
+
+    </div>
+
+
+    <div class="feature-banner-visual">
+
+        <div class="screening-illustration">
+
+            <div class="scan-ring ring-one"></div>
+            <div class="scan-ring ring-two"></div>
+            <div class="scan-eye">
+                👁
+            </div>
+
+            <div class="scan-status">
+                <span></span>
+                AI analysis
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+
+<section class="home-section reveal">
+
+    <div class="section-heading center">
+
+        <span class="section-tag">
+            SIMPLE WORKFLOW
+        </span>
+
+        <h2>
+            How
+            <span>RetinaScan works</span>
+        </h2>
+
+    </div>
+
+
+    <div class="workflow-grid">
+
+        <article class="workflow-card">
+
+            <div class="workflow-number">
+                01
+            </div>
+
+            <div class="workflow-icon">
+                📷
+            </div>
+
+            <h3>
+                Upload Image
+            </h3>
+
+            <p>
+                Provide a clear retinal fundus image for analysis.
+            </p>
+
+        </article>
+
+
+        <article class="workflow-card">
+
+            <div class="workflow-number">
+                02
+            </div>
+
+            <div class="workflow-icon">
+                🧠
+            </div>
+
+            <h3>
+                AI Analysis
+            </h3>
+
+            <p>
+                The trained deep-learning model analyses retinal image
+                features.
+            </p>
+
+        </article>
+
+
+        <article class="workflow-card">
+
+            <div class="workflow-number">
+                03
+            </div>
+
+            <div class="workflow-icon">
+                📊
+            </div>
+
+            <h3>
+                Screening Result
+            </h3>
+
+            <p>
+                View the predicted category and probability distribution.
+            </p>
+
+        </article>
+
+
+        <article class="workflow-card">
+
+            <div class="workflow-number">
+                04
+            </div>
+
+            <div class="workflow-icon">
+                🔬
+            </div>
+
+            <h3>
+                Visual Explanation
+            </h3>
+
+            <p>
+                Grad-CAM helps show image regions that influenced the
+                model prediction.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RETINASCAN FEATURES
+========================================================= -->
+
+<section class="home-section feature-section reveal">
+
+    <div class="section-heading">
+
+        <span class="section-tag">
+            MORE THAN A PREDICTION
+        </span>
+
+        <h2>
+            Designed to make
+            screening <span>understandable.</span>
+        </h2>
+
+        <p>
+            RetinaScan combines screening, explainability and
+            health education into one user-friendly workflow.
+        </p>
+
+    </div>
+
+
+    <div class="feature-box-grid">
+
+        <article class="feature-box">
+
+            <div class="feature-box-top">
+                <span class="feature-icon">🎯</span>
+                <span class="feature-label">01</span>
+            </div>
+
+            <h3>
+                Image Quality Check
+            </h3>
+
+            <p>
+                A lightweight technical check helps identify potential
+                image-quality issues before model analysis.
+            </p>
+
+        </article>
+
+
+        <article class="feature-box">
+
+            <div class="feature-box-top">
+                <span class="feature-icon">📈</span>
+                <span class="feature-label">02</span>
+            </div>
+
+            <h3>
+                Probability Visualization
+            </h3>
+
+            <p>
+                See the model's returned probabilities across all
+                five screening categories.
+            </p>
+
+        </article>
+
+
+        <article class="feature-box">
+
+            <div class="feature-box-top">
+                <span class="feature-icon">🔥</span>
+                <span class="feature-label">03</span>
+            </div>
+
+            <h3>
+                Grad-CAM Explanation
+            </h3>
+
+            <p>
+                A visual heatmap helps users understand which image
+                regions contributed to the prediction.
+            </p>
+
+        </article>
+
+
+        <article class="feature-box">
+
+            <div class="feature-box-top">
+                <span class="feature-icon">🔊</span>
+                <span class="feature-label">04</span>
+            </div>
+
+            <h3>
+                Tamil + English
+            </h3>
+
+            <p>
+                Voice reporting and interface support help make the
+                system more accessible.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROTECT YOUR HEALTH
+========================================================= -->
+
+<section class="health-section reveal">
+
+    <div class="health-image">
+
+        <img
+            src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1000&q=85"
+            alt="Healthy lifestyle and healthcare"
+        >
+
+    </div>
+
+
+    <div class="health-content">
+
+        <span class="section-tag">
+            PROTECT YOUR EYE HEALTH
+        </span>
+
+        <h2>
+            Small healthy habits
+            can support your
+            <span>overall health.</span>
+        </h2>
+
+        <p>
+            Eye health is closely connected with overall health.
+            Building consistent healthy habits can support long-term
+            wellbeing.
+        </p>
+
+
+        <div class="health-habits">
+
+            <div class="habit-card">
+                <span>🥗</span>
+                <div>
+                    <strong>Balanced nutrition</strong>
+                    <small>Choose a healthy, balanced diet.</small>
+                </div>
+            </div>
+
+
+            <div class="habit-card">
+                <span>🏃</span>
+                <div>
+                    <strong>Stay active</strong>
+                    <small>Maintain regular physical activity.</small>
+                </div>
+            </div>
+
+
+            <div class="habit-card">
+                <span>🩺</span>
+                <div>
+                    <strong>Regular check-ups</strong>
+                    <small>Keep track of important health measures.</small>
+                </div>
+            </div>
+
+
+            <div class="habit-card">
+                <span>👁️</span>
+                <div>
+                    <strong>Eye screening</strong>
+                    <small>Follow recommended professional eye examinations.</small>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINAL CTA
+========================================================= -->
+
+<section class="final-cta reveal">
+
+    <div>
+
+        <span class="section-tag">
+            READY TO EXPLORE?
+        </span>
+
+        <h2>
+            Start your retinal
+            screening journey.
+        </h2>
+
+        <p>
+            Upload a retinal image and explore the AI-assisted
+            screening workflow.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('screening') }}"
+        class="btn btn-primary btn-large"
+    >
+        Start Screening
+        <span>→</span>
+    </a>
+
+</section>
+
+
+<!-- =========================================================
+     DISCLAIMER
+========================================================= -->
+
+<div class="home-disclaimer">
+
+    <strong>Important:</strong>
+
+    RetinaScan is an AI-assisted screening and educational
+    project. Its results are not a medical diagnosis and should
+    not replace examination or advice from a qualified
+    healthcare professional.
+
+</div>
+
+{% endblock %}

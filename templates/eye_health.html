@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Eye Health | RetinaScan{% endblock %}
+
+{% block content %}
+<section class="section reveal">
+    <div class="section-header">
+        <span class="section-tag">Eye health</span>
+        <h1>Protect Your Eye Health</h1>
+    </div>
+    <div class="health-grid">
+        <article>
+            <h3>Manage Blood Sugar</h3>
+            <p>Keeping blood glucose within the range recommended by your healthcare team can help reduce diabetes-related complications.</p>
+        </article>
+        <article>
+            <h3>Monitor Blood Pressure</h3>
+            <p>Healthy blood pressure management is important for overall vascular and eye health.</p>
+        </article>
+        <article>
+            <h3>Stay Physically Active</h3>
+            <p>Regular physical activity supports overall health and diabetes management.</p>
+        </article>
+        <article>
+            <h3>Eat a Balanced Diet</h3>
+            <p>Choose a balanced diet appropriate for your health needs and healthcare guidance.</p>
+        </article>
+        <article>
+            <h3>Attend Regular Eye Examinations</h3>
+            <p>People with diabetes should follow the eye-screening schedule recommended by their healthcare professional.</p>
+        </article>
+        <article>
+            <h3>Take Breaks from Prolonged Screen Use</h3>
+            <p>Regular breaks may help reduce digital eye strain and support eye comfort during extended screen time.</p>
+        </article>
+    </div>
+</section>
+
+<section class="info-grid reveal">
+    <div class="info-copy">
+        <span class="section-tag">Healthy habits</span>
+        <h2>Healthy Habits for Your Eyes & Overall Health</h2>
+        <ul class="bullet-list">
+            <li>Regular physical activity</li>
+            <li>Taking breaks from prolonged screen use</li>
+            <li>Adequate sleep</li>
+            <li>Balanced nutrition</li>
+            <li>Diabetes management</li>
+            <li>Regular professional eye examinations</li>
+        </ul>
+        <p class="fine-print">Eye exercises can be helpful for general comfort and digital eye strain, but they are not a treatment for diabetic retinopathy and should not be considered a preventive measure for this condition.</p>
+    </div>
+    <div class="info-figure">
+        <img src="{{ url_for('static', filename='images/retina-hero.svg') }}" alt="Retinal health and eye care illustration">
+    </div>
+</section>
+{% endblock %}

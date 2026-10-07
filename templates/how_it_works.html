@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}How It Works | RetinaScan{% endblock %}
+
+{% block content %}
+<section class="section reveal">
+    <div class="section-header align-center">
+        <span class="section-tag">Workflow</span>
+        <h1>How RetinaScan Works</h1>
+    </div>
+    <div class="steps-grid">
+        <article class="step-card reveal">
+            <span class="step-index">01</span>
+            <h3>Upload Retinal Image</h3>
+            <p>A retinal fundus image is uploaded to the platform and prepared for screening review.</p>
+        </article>
+        <article class="step-card reveal">
+            <span class="step-index">02</span>
+            <h3>Enter Basic Information</h3>
+            <p>Basic patient information such as age, blood sugar, and blood pressure is entered for context.</p>
+        </article>
+        <article class="step-card reveal">
+            <span class="step-index">03</span>
+            <h3>AI-Assisted Analysis</h3>
+            <p>The trained CNN analyzes the retinal image and estimates probabilities across five screening categories.</p>
+        </article>
+        <article class="step-card reveal">
+            <span class="step-index">04</span>
+            <h3>View Screening Result</h3>
+            <p>The system presents the predicted category, probability information, visual explanation, and appropriate follow-up guidance.</p>
+        </article>
+    </div>
+</section>
+
+<section class="info-grid reveal">
+    <div class="info-copy">
+        <span class="section-tag">Safety</span>
+        <h2>Important Scope</h2>
+        <p>RetinaScan is an AI-assisted screening workflow and educational tool. It does not replace professional examination, diagnosis, or treatment planning by a qualified healthcare professional.</p>
+        <ul class="bullet-list">
+            <li>Image quality check for usability</li>
+            <li>Probability-based screening output</li>
+            <li>Grad-CAM visual explanation</li>
+            <li>Follow-up guidance for discussion</li>
+        </ul>
+    </div>
+    <div class="info-figure">
+        <img src="{{ url_for('static', filename='images/retina-hero.svg') }}" alt="Illustration of the RetinaScan screening workflow">
+    </div>
+</section>
+{% endblock %}

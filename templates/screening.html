@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block title %}New Screening | RetinaScan{% endblock %}
+
+{% block content %}
+
+<section class="screening-shell reveal">
+
+    <!-- HEADER -->
+    <div class="screening-header">
+        <div>
+            <span class="section-tag">AI-ASSISTED SCREENING</span>
+            <h1>Screen Your Retina</h1>
+            <p class="screening-intro">
+                Upload a clear retinal fundus image and enter basic health
+                information to begin the RetinaScan screening process.
+            </p>
+        </div>
+
+        <div class="screening-header-badge">
+            <span class="badge-icon">◉</span>
+            <span>5-stage retinal screening</span>
+        </div>
+    </div>
+
+
+    <!-- MAIN SCREENING FORM -->
+    <form method="post"
+          enctype="multipart/form-data"
+          class="screening-form"
+          data-loading-form>
+
+        <div class="screening-layout">
+
+            <!-- LEFT: IMAGE UPLOAD -->
+            <div class="upload-panel screening-card">
+
+                <div class="card-heading">
+                    <div class="card-icon">👁</div>
+                    <div>
+                        <h2>Retinal Image</h2>
+                        <p>Upload a clear fundus photograph</p>
+                    </div>
+                </div>
+
+                <div class="upload-box" id="upload-box">
+
+                    <input
+                        type="file"
+                        name="file"
+                        id="file"
+                        accept="image/png,image/jpeg,image/jpg"
+                        aria-label="Upload retinal image"
+                        required
+                    >
+
+                    <label for="file" class="upload-label">
+
+                        <span class="upload-icon">＋</span>
+
+                        <strong>Upload Retinal Image</strong>
+
+                        <small>
+                            Drag & drop your image here or click to browse
+                        </small>
+
+                        <span class="upload-formats">
+                            JPG · JPEG · PNG
+                        </span>
+
+                    </label>
+
+
+                    <!-- IMAGE PREVIEW -->
+                    <div class="preview-box" id="preview-box" hidden>
+
+                        <div class="preview-image-wrap">
+                            <img
+                                id="image-preview"
+                                alt="Retinal image preview"
+                                src=""
+                            >
+                        </div>
+
+                        <div class="preview-info">
+                            <strong>Image selected</strong>
+                            <span>Ready for screening analysis</span>
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="remove-image"
+                        id="remove-image"
+                        hidden
+                    >
+                        Remove image
+                    </button>
+
+                </div>
+
+
+                <!-- IMAGE GUIDANCE -->
+                <div class="helper-text">
+
+                    <div class="helper-title">
+                        <span>✓</span>
+                        Image quality guidance
+                    </div>
+
+                    <ul>
+                        <li>Use a clear and well-lit retinal image</li>
+                        <li>Make sure the fundus is properly visible</li>
+                        <li>Avoid blurred or extremely dark images</li>
+                        <li>Supported formats: JPG, JPEG and PNG</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT: PATIENT INFORMATION -->
+            <div class="patient-panel screening-card">
+
+                <div class="card-heading">
+                    <div class="card-icon">＋</div>
+                    <div>
+                        <h2>Basic Information</h2>
+                        <p>Enter the information used during screening</p>
+                    </div>
+                </div>
+
+
+                <!-- AGE -->
+                <div class="field-group">
+
+                    <label for="age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="0"
+                        max="130"
+                        value="{{ age if age is defined else '' }}"
+                        placeholder="Enter age"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BLOOD SUGAR -->
+                <div class="field-group">
+
+                    <label for="blood_sugar">
+                        Blood Sugar
+                    </label>
+
+                    <div class="input-with-unit">
+                        <input
+                            type="number"
+                            step="0.1"
+                            id="blood_sugar"
+                            name="blood_sugar"
+                            value="{{ blood_sugar if blood_sugar is defined else '' }}"
+                            placeholder="e.g. 110"
+                            required
+                        >
+
+                        <span>mg/dL</span>
+                    </div>
+
+                </div>
+
+
+                <!-- BLOOD PRESSURE -->
+                <div class="field-group">
+
+                    <label for="blood_pressure">
+                        Blood Pressure
+                    </label>
+
+                    <div class="input-with-unit">
+                        <input
+                            type="text"
+                            id="blood_pressure"
+                            name="blood_pressure"
+                            pattern="\d{2,3}\/\d{2,3}"
+                            value="{{ blood_pressure if blood_pressure is defined else '' }}"
+                            placeholder="e.g. 120/80"
+                            required
+                        >
+
+                        <span>mmHg</span>
+                    </div>
+
+                </div>
+
+
+                <!-- LANGUAGE -->
+                <div class="field-group language-group">
+
+                    <span class="field-label">
+                        Voice Report Language
+                    </span>
+
+                    <div class="radio-row">
+
+                        <label class="language-option">
+
+                            <input
+                                type="radio"
+                                name="language"
+                                value="en"
+                                {% if language is defined and language=='en' %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>English</span>
+
+                        </label>
+
+
+                        <label class="language-option">
+
+                            <input
+                                type="radio"
+                                name="language"
+                                value="ta"
+                                {% if language is defined and language=='ta' %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>தமிழ்</span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DISCLAIMER -->
+                <div class="disclaimer-box">
+
+                    <span class="disclaimer-icon">ⓘ</span>
+
+                    <div>
+                        <strong>Important</strong>
+
+                        <p>
+                            RetinaScan provides AI-assisted screening
+                            information and is not a medical diagnosis.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-large screening-submit"
+                    id="submit-button"
+                >
+
+                    <span class="button-text">
+                        Analyze Retina →
+                    </span>
+
+                    <span class="button-loading" aria-hidden="true">
+                        Analyzing...
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- BOTTOM INFORMATION BOXES -->
+    <div class="screening-info-row">
+
+        <div class="screening-info-card">
+
+            <span class="info-number">01</span>
+
+            <div>
+                <h3>Upload</h3>
+                <p>
+                    Provide a clear retinal fundus image for analysis.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="screening-info-card">
+
+            <span class="info-number">02</span>
+
+            <div>
+                <h3>AI Analysis</h3>
+                <p>
+                    RetinaScan analyzes the image using its trained CNN model.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="screening-info-card">
+
+            <span class="info-number">03</span>
+
+            <div>
+                <h3>Understand</h3>
+                <p>
+                    Review the predicted stage, probabilities and visual
+                    explanation.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

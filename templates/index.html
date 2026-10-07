@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="{{ 'ta' if language is defined and language == 'ta' else 'en' }}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>RetinaScan - Upload</title>
+	</head>
+	<body>
+		<h1>
+			{% if language is defined and language == 'ta' %}
+				ரெட்டினாஸ்கேன் - ஒளிப்படத்தை பதிவேற்று
+			{% else %}
+				RetinaScan - Upload Retinal Image
+			{% endif %}
+		</h1>
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul>
+				{% for m in messages %}
+					<li>{{ m }}</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+
+		<form method="post" enctype="multipart/form-data">
+			<label for="age">{% if language is defined and language == 'ta' %}வயது:{% else %}Age:{% endif %}</label>
+			<input type="number" name="age" id="age" min="0" max="130" value="{{ age if age is defined else '' }}" required>
+
+			<label for="blood_sugar">{% if language is defined and language == 'ta' %}இரத்தச் சர்க்கரை (மி.கி/டெ.லி):{% else %}Blood Sugar (mg/dL):{% endif %}</label>
+			<input type="number" name="blood_sugar" id="blood_sugar" step="0.1" min="0" value="{{ blood_sugar if blood_sugar is defined else '' }}" required>
+
+			<label for="blood_pressure">{% if language is defined and language == 'ta' %}இரத்த அழுத்தம் (mmHg) உதாரணம் 120/80:{% else %}Blood Pressure (mmHg) e.g. 120/80:{% endif %}</label>
+			<input type="text" name="blood_pressure" id="blood_pressure" pattern="\d{2,3}\/\d{2,3}" value="{{ blood_pressure if blood_pressure is defined else '' }}" required>
+
+			<label for="language">{% if language is defined and language == 'ta' %}குரல் மொழி தேர்ந்தெடுக்கவும்:{% else %}Select Voice Language:{% endif %}</label>
+			<select name="language" id="language">
+				<option value="en" {% if language is defined and language == 'en' %}selected{% endif %}>English</option>
+				<option value="ta" {% if language is defined and language == 'ta' %}selected{% endif %}>தமிழ்</option>
+			</select>
+
+			<label for="file">{% if language is defined and language == 'ta' %}படத்தைத் தேர்ந்தெடுக்கவும் (jpg, jpeg, png):{% else %}Select image (jpg, jpeg, png):{% endif %}</label>
+			<input type="file" name="file" id="file" accept="image/*" required>
+			<button type="submit">{% if language is defined and language == 'ta' %}திரையிடலைத் தொடங்கு{% else %}Upload & Predict{% endif %}</button>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+
+static/uploads/*
+static/gradcam/*
+static/audio/*
+
+# Local database
+instance/
+
+# Trained model files
+model/*.keras
+model/*.h5
+
+# Generated reports
+static/reports/*

@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+
+{% block title %}RetinaScan | History{% endblock %}
+
+{% block content %}
+
+<style>
+    /* ==============================
+       RETINASCAN - HISTORY PAGE
+       Frontend styling only
+       ============================== */
+
+    .history-section {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 28px;
+        box-sizing: border-box;
+    }
+
+    /* Header */
+    .history-header {
+        margin-bottom: 24px;
+    }
+
+    .history-header h2 {
+        margin: 0 0 6px;
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .history-header p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    /* Filters */
+    .filters {
+        display: grid;
+        grid-template-columns: minmax(260px, 1.7fr) 1fr 1fr 1fr auto;
+        gap: 14px;
+        align-items: end;
+        padding: 18px;
+        margin-bottom: 24px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-sizing: border-box;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        min-width: 0;
+    }
+
+    .filter-group label {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid #d7dce5;
+        border-radius: 9px;
+        background: #ffffff;
+        font-size: 13px;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    .filter-group input:focus,
+    .filter-group select:focus {
+        border-color: #6c63ff;
+        box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.12);
+    }
+
+    .filter-action {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .filter-action .btn {
+        height: 42px;
+        min-width: 90px;
+        padding: 0 18px;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    /* History list */
+    .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    /* Individual history card */
+    .history-card {
+        width: 100%;
+        padding: 20px;
+        margin: 0;
+        border-radius: 14px;
+        box-sizing: border-box;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .history-card:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Top section */
+    .history-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .history-meta strong {
+        font-size: 15px;
+    }
+
+    .history-meta div:last-child {
+        font-size: 12px;
+        opacity: 0.65;
+        white-space: nowrap;
+    }
+
+    /* Information section */
+    .history-body {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 0.7fr;
+        align-items: center;
+        gap: 18px;
+        padding: 18px 0;
+    }
+
+    .history-body > div {
+        font-size: 13px;
+    }
+
+    .history-body > div:first-child {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    /* Buttons */
+    .history-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .history-actions .btn {
+        min-width: 125px;
+        text-align: center;
+        padding: 9px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 13px;
+        box-sizing: border-box;
+    }
+
+    /* Empty state */
+    .empty-history {
+        padding: 40px 20px;
+        text-align: center;
+        border-radius: 14px;
+        border: 1px dashed rgba(0, 0, 0, 0.15);
+    }
+
+    .empty-history p {
+        margin: 0;
+        opacity: 0.65;
+    }
+
+    /* ==============================
+       TABLET
+       ============================== */
+
+    @media (max-width: 1000px) {
+        .filters {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .search-filter {
+            grid-column: 1 / -1;
+        }
+
+        .filter-action {
+            align-items: stretch;
+        }
+
+        .filter-action .btn {
+            width: 100%;
+        }
+
+        .history-body {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    /* ==============================
+       MOBILE
+       ============================== */
+
+    @media (max-width: 600px) {
+
+        .history-section {
+            padding: 18px;
+        }
+
+        .history-header h2 {
+            font-size: 22px;
+        }
+
+        .filters {
+            grid-template-columns: 1fr;
+            padding: 15px;
+        }
+
+        .search-filter {
+            grid-column: auto;
+        }
+
+        .history-card {
+            padding: 16px;
+        }
+
+        .history-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .history-body {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .history-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .history-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<section class="card history-section">
+
+    <div class="history-header">
+        <h2>Screening History</h2>
+        <p>View and manage your previous retinal screenings.</p>
+    </div>
+
+
+    <form method="get" class="filters">
+
+        <div class="filter-group search-filter">
+            <label for="search">Search</label>
+
+            <input
+                id="search"
+                type="text"
+                name="q"
+                placeholder="Search by Screening ID or Stage"
+                value="{{ q }}"
+            >
+        </div>
+
+
+        <div class="filter-group">
+            <label for="risk">Risk Level</label>
+
+            <select id="risk" name="risk">
+                <option value="All" {% if risk=='All' %}selected{% endif %}>
+                    All Risks
+                </option>
+
+                <option value="Low" {% if risk=='Low' %}selected{% endif %}>
+                    Low
+                </option>
+
+                <option value="Moderate" {% if risk=='Moderate' %}selected{% endif %}>
+                    Moderate
+                </option>
+
+                <option value="High" {% if risk=='High' %}selected{% endif %}>
+                    High
+                </option>
+            </select>
+        </div>
+
+
+        <div class="filter-group">
+            <label for="stage">DR Stage</label>
+
+            <select id="stage" name="stage">
+                <option value="All" {% if stage=='All' %}selected{% endif %}>
+                    All Stages
+                </option>
+
+                {% for s in ['No_DR','Mild','Moderate','Proliferate_DR','Severe'] %}
+                    <option value="{{ s }}" {% if stage==s %}selected{% endif %}>
+                        {{ s }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="filter-group">
+            <label for="order">Sort By</label>
+
+            <select id="order" name="order">
+                <option value="newest" {% if order=='newest' %}selected{% endif %}>
+                    Newest first
+                </option>
+
+                <option value="oldest" {% if order=='oldest' %}selected{% endif %}>
+                    Oldest first
+                </option>
+            </select>
+        </div>
+
+
+        <div class="filter-action">
+            <button type="submit" class="btn">
+                Filter
+            </button>
+        </div>
+
+    </form>
+
+
+    <div class="history-list">
+
+        {% if records %}
+
+            {% for r in records %}
+
+                <div class="history-card card">
+
+                    <div class="history-meta">
+                        <div>
+                            <strong>{{ r.screening_id }}</strong>
+                        </div>
+
+                        <div>
+                            {{ r.created_at }}
+                        </div>
+                    </div>
+
+
+                    <div class="history-body">
+
+                        <div>
+                            <strong>{{ r.predicted_class }}</strong>
+                        </div>
+
+                        <div>
+                            Confidence:
+                            {{ '%.2f'|format((r.confidence or 0) * 100) }}%
+                        </div>
+
+                        <div>
+                            Risk:
+                            {{ r.risk_level or 'N/A' }}
+                        </div>
+
+                        <div>
+                            Age:
+                            {{ r.patient_age or 'N/A' }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="history-actions">
+
+                        <a
+                            class="btn btn-secondary"
+                            href="{{ url_for('history_view', screening_id=r.screening_id) }}"
+                        >
+                            View Result
+                        </a>
+
+                        <a
+                            class="btn btn-primary"
+                            href="{{ url_for('history_download', screening_id=r.screening_id) }}"
+                        >
+                            Download PDF
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-history">
+                <p>No screenings found.</p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

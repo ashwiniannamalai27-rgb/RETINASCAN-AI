@@ -1,0 +1,42 @@
+<svg width="1200" height="920" viewBox="0 0 1200 920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="920" rx="40" fill="#EDF5FF"/>
+  <circle cx="640" cy="430" r="260" fill="#DCEEFF"/>
+  <circle cx="640" cy="430" r="210" fill="#F7FBFF" stroke="#9FB9D9" stroke-width="16"/>
+  <circle cx="640" cy="430" r="121" fill="#F9C5C1" opacity="0.18"/>
+  <circle cx="640" cy="430" r="92" fill="#C4E3FF" opacity="0.72"/>
+  <circle cx="640" cy="430" r="58" fill="#8DBDEB" opacity="0.44"/>
+  <g opacity="0.75">
+    <path d="M468 430C520 318 727 293 800 430C742 529 593 576 468 430Z" fill="#78B4E8" opacity="0.28"/>
+    <path d="M537 430C570 347 695 345 746 430C703 494 612 512 537 430Z" fill="#EEF7FF"/>
+  </g>
+  <g stroke="#4169A7" stroke-width="3" stroke-linecap="round" opacity="0.82">
+    <path d="M640 290V570"/>
+    <path d="M450 430H830"/>
+    <path d="M515 358C561 318 672 320 721 358"/>
+    <path d="M514 503C560 545 673 545 724 505"/>
+    <path d="M355 356C431 302 507 309 536 429C509 549 436 555 359 506"/>
+    <path d="M924 356C845 302 770 309 742 429C768 549 841 555 924 506"/>
+  </g>
+  <g fill="#2C6FAD">
+    <circle cx="640" cy="430" r="9"/>
+    <circle cx="714" cy="430" r="6"/>
+    <circle cx="568" cy="430" r="6"/>
+    <circle cx="640" cy="358" r="6"/>
+    <circle cx="640" cy="502" r="6"/>
+  </g>
+  <g opacity="0.84">
+    <path d="M307 224C368 198 425 213 472 234" stroke="#6AB2D8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M912 234C952 210 1015 198 1055 220" stroke="#6AB2D8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M299 673C364 712 440 720 507 699" stroke="#6AB2D8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M903 699C967 719 1036 711 1093 676" stroke="#6AB2D8" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="150" y="120" width="180" height="76" rx="24" fill="white" opacity="0.9"/>
+    <text x="170" y="167" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#173F7C">AI-assisted</text>
+  </g>
+  <g>
+    <rect x="820" y="645" width="212" height="88" rx="26" fill="#123A74"/>
+    <text x="848" y="685" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="white">92%</text>
+    <text x="848" y="712" font-family="Arial, sans-serif" font-size="15" fill="#CFE3FF">Image clarity</text>
+  </g>
+</svg>

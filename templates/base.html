@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="RetinaScan is an AI-assisted diabetic retinopathy screening platform that supports early retinal image screening and patient education."
+    >
+
+    <title>{% block title %}RetinaScan{% endblock %}</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main stylesheet -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body class="app-shell">
+
+    <!-- Accessibility -->
+    <a class="skip-link" href="#main-content">
+        Skip to content
+    </a>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="topbar-inner">
+
+            <!-- Brand -->
+            <a
+                href="{{ url_for('landing') }}"
+                class="brand-wrap"
+                aria-label="RetinaScan Home"
+            >
+
+                <div class="brand-badge">
+                    <span>R</span>
+                </div>
+
+                <div class="brand-copy">
+                    <div class="brand-title">
+                        RetinaScan
+                    </div>
+
+                    <div class="brand-subtitle">
+                        AI-Assisted Retinal Screening
+                    </div>
+                </div>
+
+            </a>
+
+
+            <!-- Mobile menu button -->
+            <button
+                class="nav-toggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="main-nav"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+
+            <!-- Navigation -->
+            <nav
+                id="main-nav"
+                class="main-nav"
+                role="navigation"
+                aria-label="Main navigation"
+            >
+
+                <a
+                    href="{{ url_for('landing') }}"
+                    class="nav-link"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="{{ url_for('how_it_works') }}"
+                    class="nav-link"
+                >
+                    How It Works
+                </a>
+
+                <a
+                    href="{{ url_for('eye_health') }}"
+                    class="nav-link"
+                >
+                    Eye Health
+                </a>
+
+                <a
+                    href="{{ url_for('screening') }}"
+                    class="nav-link"
+                >
+                    Screening
+                </a>
+
+
+                {% if session.get('user_id') %}
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="nav-link"
+                    >
+                        Dashboard
+                    </a>
+
+                    <a
+                        href="{{ url_for('history') }}"
+                        class="nav-link"
+                    >
+                        History
+                    </a>
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="nav-link"
+                    >
+                        Profile
+                    </a>
+
+                    <a
+                        href="{{ url_for('logout') }}"
+                        class="nav-link nav-logout"
+                    >
+                        Logout
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{{ url_for('login') }}"
+                        class="nav-link"
+                    >
+                        Login
+                    </a>
+
+                {% endif %}
+
+
+                <!-- Main CTA -->
+                <a
+                    href="{{ url_for('screening') }}"
+                    class="nav-cta"
+                >
+                    <span>Start Screening</span>
+                    <span class="nav-cta-arrow">→</span>
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+        <div
+            id="main-content"
+            tabindex="-1"
+        >
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div
+                        class="flash-stack"
+                        role="status"
+                        aria-live="polite"
+                    >
+
+                        {% for category, message in messages %}
+
+                            <div
+                                class="flash-message flash-{{ category if category else 'info' }}"
+                            >
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- Page content -->
+            {% block content %}{% endblock %}
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-box">
+
+            <div class="footer-main">
+
+                <!-- RetinaScan -->
+                <div class="footer-brand-section">
+
+                    <div class="footer-brand-row">
+
+                        <div class="footer-logo">
+                            R
+                        </div>
+
+                        <div>
+
+                            <div class="footer-brand-name">
+                                RetinaScan
+                            </div>
+
+                            <div class="footer-brand-tagline">
+                                AI-Assisted Retinal Screening
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <p class="footer-intro">
+                        A technology-focused screening platform designed
+                        to support earlier awareness through retinal image
+                        analysis, explainability, and health education.
+                    </p>
+
+                </div>
+
+
+                <!-- Copyright -->
+                <div class="footer-copyright">
+
+                    <strong>
+                        © 2026 RetinaScan
+                    </strong>
+
+                    <span>
+                        All rights reserved.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Disclaimer -->
+            <div class="footer-disclaimer-box">
+
+                <p>
+                    RetinaScan is an AI-assisted screening and educational
+                    project. It is not a diagnostic tool and should not
+                    replace professional medical examination or medical advice.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='app.js') }}"
+    ></script>
+
+</body>
+</html>

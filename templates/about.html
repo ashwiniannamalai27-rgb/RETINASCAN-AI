@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}About Diabetic Retinopathy | RetinaScan{% endblock %}
+
+{% block content %}
+<section class="info-grid reveal">
+    <div class="info-copy">
+        <span class="section-tag">Medical education</span>
+        <h1>What is Diabetic Retinopathy?</h1>
+        <p>
+            Diabetic retinopathy is a diabetes-related eye condition that affects the blood vessels of the retina. Changes in these blood vessels can develop gradually, and early stages may not always produce noticeable symptoms.
+        </p>
+        <p>
+            Regular eye examinations and good diabetes management are important for protecting vision. RetinaScan is designed as an AI-assisted screening and educational support tool. It may help highlight patterns in retinal images and support the screening workflow, but it does not replace professional examination or medical diagnosis.
+        </p>
+        <ul class="bullet-list">
+            <li>Screening support</li>
+            <li>AI-assisted review</li>
+            <li>Model prediction</li>
+            <li>Supportive tool for follow-up discussion</li>
+        </ul>
+    </div>
+    <div class="info-figure">
+        <img src="{{ url_for('static', filename='images/retina-hero.svg') }}" alt="Illustration of retinal health and diabetic retinopathy knowledge">
+    </div>
+</section>
+
+<section class="section reveal">
+    <div class="section-header">
+        <span class="section-tag">Responsible use</span>
+        <h2>How RetinaScan Fits Into Care</h2>
+    </div>
+    <div class="health-grid narrow">
+        <article>
+            <h3>Screening context</h3>
+            <p>RetinaScan can support screening by highlighting model-based categories derived from retinal images.</p>
+        </article>
+        <article>
+            <h3>Explainability</h3>
+            <p>Grad-CAM generates a visual interpretation of areas that contributed to the model output.</p>
+        </article>
+        <article>
+            <h3>Professional follow-up</h3>
+            <p>Any result should be considered in the context of a qualified eye-care professional's evaluation.</p>
+        </article>
+    </div>
+</section>
+{% endblock %}

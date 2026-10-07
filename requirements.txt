@@ -1,0 +1,9 @@
+Flask
+tensorflow
+Pillow
+numpy
+opencv-python
+matplotlib
+scikit-learn
+gTTS
+reportlab
